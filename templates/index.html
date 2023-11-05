@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image to Text Converter</title>
+</head>
+<body>
+    <h1>Image to Text Converter</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Convert to Text">
+    </form>
+    <div id="text-container">
+        <h2>Extracted Text:</h2>
+        <p id="extracted-text"></p>
+    </div>
+    <script>
+        const form = document.querySelector('form');
+        const textContainer = document.getElementById('text-container');
+        const extractedText = document.getElementById('extracted-text');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (data.text) {
+                extractedText.textContent = data.text;
+                textContainer.style.display = 'block';
+            } else {
+                extractedText.textContent = 'No text found in the image.';
+                textContainer.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

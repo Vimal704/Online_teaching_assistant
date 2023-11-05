@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Interface</title>
+</head>
+<body>
+    <h1>Welcome!</h1>
+    <div id="text-container">
+        <h2>Possible spelling mistakes:</h2>
+        <p id="display-text"></p>
+    </div>
+
+    <script>
+        fetch('/get_text')
+            .then(response => response.json())
+            .then(data => {
+                const displayText = document.getElementById('display-text');
+                if (data.text) {
+                    displayText.textContent = data.text;
+                } else {
+                    displayText.textContent = 'No text available.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
